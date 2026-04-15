@@ -1,6 +1,23 @@
 import dotenv from "dotenv";
 dotenv.config();
 import nodemailer from "nodemailer";
+import dns from "dns";
+
+// Custom DNS lookup that only returns IPv4 addresses
+const lookupIPv4 = (hostname, options, callback) => {
+  dns.lookup(hostname, { family: 4, all: true }, (err, addresses) => {
+    if (err) {
+      return callback(err);
+    }
+    // Return only IPv4 addresses
+    const ipv4Addresses = addresses.filter((addr) => addr.family === 4);
+    if (ipv4Addresses.length === 0) {
+      return callback(new Error(`No IPv4 addresses found for ${hostname}`));
+    }
+    // Return the first IPv4 address
+    callback(null, ipv4Addresses[0].address, ipv4Addresses[0].family);
+  });
+};
 
 // Create transporter with explicit IPv4 settings
 const transporter = nodemailer.createTransport({
@@ -12,14 +29,18 @@ const transporter = nodemailer.createTransport({
     user: process.env.GOOGLE_USER,
     pass: process.env.GOOGLE_PASS,
   },
-  // Force IPv4 by specifying family
+  // Force IPv4 using custom DNS lookup
+  dns: {
+    lookup: lookupIPv4,
+  },
+  // Force IPv4 by specifying family at socket level
   socketOptions: {
     family: 4, // Use IPv4 only
   },
   // Increase timeout for Render's network
-  connectionTimeout: 10000,
-  greetingTimeout: 10000,
-  socketTimeout: 10000,
+  connectionTimeout: 15000,
+  greetingTimeout: 15000,
+  socketTimeout: 15000,
 });
 
 // Verify transporter on startup (but don't crash if it fails)
