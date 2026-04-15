@@ -35,17 +35,29 @@ export async function register(req, res) {
     process.env.JWT_SECRET_KEY,
   );
 
-  await sendEmail({
+  // Determine base URL for email verification link
+  // Use environment variable if set, otherwise construct from request
+  let baseUrl = process.env.BACKEND_URL;
+  if (!baseUrl) {
+    // Construct from request (works behind proxy if trust proxy is set)
+    baseUrl = `${req.protocol}://${req.get("host")}`;
+  }
+
+  // Send verification email in background, don't block registration
+  // Even if email fails, registration should succeed
+  sendEmail({
     to: email,
     subject: "Welcome to Perplexity!",
     html: `
                 <p>Hi ${username},</p>
                 <p>Thank you for registering at <strong>Perplexity</strong>. We're excited to have you on board!</p>
                 <p>Please verify your email address by clicking the link below:</p>
-                <a href="${process.env.BACKEND_URL}/api/auth/verify-email?token=${emailVerificationToken}">Verify Email</a>
+                <a href="${baseUrl}/api/auth/verify-email?token=${emailVerificationToken}">Verify Email</a>
                 <p>If you did not create an account, please ignore this email.</p>
                 <p>Best regards,<br>The Perplexity Team</p>
         `,
+  }).catch((err) => {
+    console.error("Background email sending failed:", err);
   });
 
   res.status(201).json({
@@ -56,6 +68,7 @@ export async function register(req, res) {
       username: user.username,
       email: user.email,
     },
+    note: "Verification email sent if email service is available",
   });
 }
 
