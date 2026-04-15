@@ -19,12 +19,11 @@ const lookupIPv4 = (hostname, options, callback) => {
   });
 };
 
-// Create transporter with explicit IPv4 settings
+// Create transporter with explicit IPv4 settings and SSL
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // Use STARTTLS
-  requireTLS: true,
+  port: 465, // SSL port
+  secure: true, // Use SSL
   auth: {
     user: process.env.GOOGLE_USER,
     pass: process.env.GOOGLE_PASS,
@@ -38,9 +37,9 @@ const transporter = nodemailer.createTransport({
     family: 4, // Use IPv4 only
   },
   // Increase timeout for Render's network
-  connectionTimeout: 15000,
-  greetingTimeout: 15000,
-  socketTimeout: 15000,
+  connectionTimeout: 30000,
+  greetingTimeout: 30000,
+  socketTimeout: 30000,
 });
 
 // Verify transporter on startup (but don't crash if it fails)
