@@ -3,6 +3,14 @@ import chatModel from "../models/chat.model.js";
 import messageModel from "../models/message.model.js";
 
 export async function sendMessage(req, res) {
+  // Check if user is authenticated
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({
+      message: "Authentication required",
+      success: false,
+    });
+  }
+
   const { message, chat: chatId } = req.body;
 
   let title = null;
@@ -44,6 +52,14 @@ export async function sendMessage(req, res) {
 }
 
 export async function getChats(req, res) {
+  // Check if user is authenticated
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({
+      message: "Authentication required",
+      success: false,
+    });
+  }
+
   const chats = await chatModel.find({
     user: req.user.id,
   });
@@ -55,6 +71,14 @@ export async function getChats(req, res) {
 }
 
 export async function getMessages(req, res) {
+  // Check if user is authenticated
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({
+      message: "Authentication required",
+      success: false,
+    });
+  }
+
   const { chatId } = req.params;
 
   const chat = await chatModel.findOne({
@@ -78,6 +102,14 @@ export async function getMessages(req, res) {
 }
 
 export async function deleteChat(req, res) {
+  // Check if user is authenticated
+  if (!req.user || !req.user.id) {
+    return res.status(401).json({
+      message: "Authentication required",
+      success: false,
+    });
+  }
+
   const { chatId } = req.params;
 
   const chat = await chatModel.findOneAndDelete({
