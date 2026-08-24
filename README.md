@@ -1,681 +1,1058 @@
-To Start project -> npm run dev |
---------------------------------|
+# 🔎 Perplexity — AI Search & Chat Application
 
-## 📋 Project Overview
+Perplexity is a full-stack AI-powered chat application inspired by modern AI search assistants.
 
-**Perplexity** is a full-stack application featuring:
-- 🔐 **Authentication System** with user registration and email verification
-- 💬 **Chat with Authentication** - Secure chat functionality
-- 📚 **Chat History** - Persistent conversation storage
-- 💾 **Message Storage** - Individual message management
-- 🤖 **AI with Internet Research Feature** - Advanced AI capabilities
+The project combines **React, Redux, Node.js, Express, MongoDB, Socket.IO, LangChain, Mistral AI, and Tavily** to provide authenticated conversations, persistent chat history, AI-generated responses, and internet-powered research.
 
+---
 
-## 📁 Backend Project Structure
+## 🚀 Project Status
 
-perplexity(part 1)/
-   |
-   └─ backend/  (Node.js + Express Backend)
-      ├── src/  (Source Code)
-      │   ├── config/  (Application Configuration)
-      │   │   └── database.js  (MongoDB connection setup with Mongoose)
-      │   │
-      │   ├── controllers/  (Business Logic Controllers)
-      │   │   ├── auth.controller.js  (Handles user registration, login, profile)
-      │   │   └── chat.controller.js  (Handles chat creation, messages, AI responses)
-      │   │
-      │   ├── middlewares/  (Request Processing Middleware)
-      │   │   └── auth.middleware.js  (JWT authentication & authorization)
-      │   │
-      │   ├── models/  (Mongoose Database Schemas)
-      │   │   ├── user.model.js  (User schema with password hashing)
-      │   │   ├── chat.model.js  (Chat schema with title & user reference)
-      │   │   └── message.model.js  (Message schema with role & content)
-      │   │
-      │   ├── routes/  (API Route Definitions)
-      │   │   ├── auth.routes.js  (Authentication routes: /register, /login, /me)
-      │   │   └── chat.routes.js  (Chat routes: /chats/, /chats/message, etc.)
-      │   │
-      │   ├── services/  (External & Business Services)
-      │   │   ├── ai.service.js  (Mistral AI integration for chat responses)
-      │   │   └── mail.service.js  (Nodemailer email service for verification)
-      │   │
-      │   ├── sockets/  (WebSocket/Real-time Communication)
-      │   │   └── server.socket.js  (Socket.IO server for real-time features)
-      │   │
-      │   ├── validators/  (Input Validation Layer)
-      │   │   └── auth.validator.js  (Joi validation for auth endpoints)
-      │   │
-      │   └── app.js  (Express app configuration, middleware, route binding)
-      │
-      ├── .env  (Environment Variables - PORT, MONGO_URI, JWT_SECRET, etc.)
-      ├── .gitignore  (Git ignored files: node_modules, .env, etc.)
-      ├── package.json  (Project dependencies & npm scripts)
-      ├── package-lock.json  (Dependency lock file)
-      └── server.js  (Application entry point - starts HTTP & WebSocket servers)
+This project was developed incrementally through multiple implementation stages.
 
+### Current Features
 
-## 📁 Frontend Project Structure (React)
+- 🔐 User registration & authentication
+- ✉️ Email verification with Nodemailer
+- 🔑 JWT-based authentication
+- 👤 Authenticated user profile / Get Me
+- 💬 Real-time AI chat
+- 📚 Persistent chat history
+- 📝 Persistent message storage
+- 🗑️ Chat deletion
+- 🤖 Mistral AI integration
+- 🧠 LangChain integration
+- 🌐 Internet research using Tavily
+- 🔌 Real-time communication using Socket.IO
+- 📝 Markdown rendering for AI responses
+- 📊 GitHub Flavored Markdown support
+- 🎨 React + Tailwind CSS frontend
+- 🗃️ Redux Toolkit state management
+- 🛡️ Input validation with Joi and Zod
 
-perplexity(Part 1)/
-   |
-   └─ frontend/  (React + Vite Frontend)
-      ├── public/  (Static Assets)
-      │   └── perplexity-icon.png
-      ├── src/  (Source Code)
-      │   ├── app/  (Core Application)
-      │   │   ├── App.jsx  (Main App component)
-      │   │   ├── app.routes.jsx  (React Router routes)
-      │   │   ├── app.store.js  (Redux store configuration)
-      │   │   └── index.css  (Global styles)
-      │   ├── features/  (Feature Modules)
-      │   │   ├── auth/  (Authentication Feature)
-      │   │   │   ├── auth.slice.js  (Redux slice for auth state)
-      │   │   │   ├── components/  (Reusable components)
-      │   │   │   │   └── Protected.jsx  (Protected route component)
-      │   │   │   ├── hook/  (Custom React hooks)
-      │   │   │   │   └── useAuth.js  (Authentication hook)
-      │   │   │   ├── pages/  (Page Components)
-      │   │   │   │   ├── Login.jsx  (Login page)
-      │   │   │   │   └── Register.jsx  (Register page)
-      │   │   │   └── service/  (API services)
-      │   │   │       └── auth.api.js  (Auth API calls)
-      │   │   └── chat/  (Chat Feature)
-      │   │       ├── pages/  (Chat pages)
-      │   │       │   └── Dashboard.jsx  (Main chat dashboard)
-      │   │       ├── hooks/  (Chat hooks)
-      │   │       │   └── useChat.js  (Chat functionality hook)
-      │   │       ├── services/  (Chat services)
-      │   │       │   ├── chat.socket.js  (WebSocket client for chat)
-      │   │       │   ├── chat.api.js  (API calls: fetch, send, delete chat/messages)
-      │   │       │   └── internet.service.js  (Internet search and tools related services)
-      │   │       └── chat.slice.js (Redux slice: manage chat state, messages, loading, errors)
-      │   │           
-      │   └── main.jsx  (Application entry point)
-      ├── .gitignore  (Frontend git ignore)
-      ├── eslint.config.js  (ESLint configuration)
-      ├── index.html  (HTML template)
-      ├── package.json  (Frontend dependencies)
-      ├── package-lock.json  (Frontend lock file)
-      ├── README.md  (Frontend documentation)
-      └── vite.config.js  (Vite build configuration)
+---
 
+# 🛠️ Tech Stack
 
-=============================================================================
------------------------------- Part 1 ---------------------------------------
-=============================================================================
+## Frontend
 
+- React
+- Vite
+- React Router
+- Redux Toolkit
+- React Redux
+- Axios
+- Tailwind CSS
+- Socket.IO Client
+- React Markdown
+- Remark GFM
 
-# Perplexity Backend - Project Documentation
+## Backend
 
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcryptjs
+- Nodemailer
+- Socket.IO
+- CORS
+- Morgan
 
-## 🛠️ Installation & Setup
+## AI & Search
 
-### Prerequisites
-- Node.js (ES Modules support)
-- MongoDB Atlas account or local MongoDB instance
+- LangChain
+- Mistral AI
+- Google Gemini / Google Generative AI
+- Tavily Internet Search
 
-### Installation Steps
-```bash
-# Navigate to backend directory
+## Validation
+
+- Joi
+- Zod
+
+---
+
+# 📋 Project Overview
+
+The application consists of two major parts:
+
+```text
+Perplexity
+│
+├── backend/
+│   └── Node.js + Express + MongoDB
+│
+└── frontend/
+    └── React + Vite + Redux + Tailwind CSS
+
+The backend provides authentication, database management, AI processing, internet search, email verification, and real-time communication.
+
+The frontend provides the user interface for authentication, conversations, chat history, and AI responses.
+
+📁 Project Structure
+Backend
+backend/
+│
+├── src/
+│   │
+│   ├── config/
+│   │   └── database.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   └── chat.controller.js
+│   │
+│   ├── middlewares/
+│   │   └── auth.middleware.js
+│   │
+│   ├── models/
+│   │   ├── user.model.js
+│   │   ├── chat.model.js
+│   │   └── message.model.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   └── chat.routes.js
+│   │
+│   ├── services/
+│   │   ├── ai.service.js
+│   │   ├── mail.service.js
+│   │   └── internet.service.js
+│   │
+│   ├── sockets/
+│   │   └── server.socket.js
+│   │
+│   ├── validators/
+│   │   └── auth.validator.js
+│   │
+│   └── app.js
+│
+├── .env
+├── .gitignore
+├── package.json
+├── package-lock.json
+└── server.js
+
+📁 Frontend
+frontend/
+│
+├── public/
+│   └── perplexity-icon.png
+│
+├── src/
+│   │
+│   ├── app/
+│   │   ├── App.jsx
+│   │   ├── app.routes.jsx
+│   │   ├── app.store.js
+│   │   └── index.css
+│   │
+│   ├── features/
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── auth.slice.js
+│   │   │   ├── components/
+│   │   │   │   └── Protected.jsx
+│   │   │   ├── hook/
+│   │   │   │   └── useAuth.js
+│   │   │   ├── pages/
+│   │   │   │   ├── Login.jsx
+│   │   │   │   └── Register.jsx
+│   │   │   └── service/
+│   │   │       └── auth.api.js
+│   │   │
+│   │   └── chat/
+│   │       ├── pages/
+│   │       │   └── Dashboard.jsx
+│   │       ├── hooks/
+│   │       │   └── useChat.js
+│   │       ├── services/
+│   │       │   ├── chat.socket.js
+│   │       │   ├── chat.api.js
+│   │       │   └── internet.service.js
+│   │       └── chat.slice.js
+│   │
+│   └── main.jsx
+│
+├── .gitignore
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+└── vite.config.js
+
+⚙️ Installation & Setup
+Prerequisites
+Make sure you have the following installed:
+
+Node.js
+npm
+MongoDB Atlas account or local MongoDB
+Git
+You will also need API credentials for the services used by the application.
+
+📦 Backend Installation
+Navigate to the backend directory:
+
 cd backend
 
-# Initialize project
-npm init -y
+Install dependencies:
 
-# Install core dependencies
-npm i express mongoose jsonwebtoken dotenv cookie-parser
-
-# Install additional packages
-npm i bcryptjs nodemailer
-
-# Install dev dependencies
-npm i -D nodemon
-
-# Start development server
-npm run dev
-```
-
-### Environment Configuration (.env)
-```env
-PORT=3000
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/database
-JWT_SECRET=your_jwt_secret_here
-EMAIL_USER=your_email@gmail.com
-EMAIL_CLIENT_ID=your_oauth_client_id
-EMAIL_CLIENT_SECRET=your_oauth_client_secret
-EMAIL_REFRESH_TOKEN=your_oauth_refresh_token
-```
-
-
-## 🗄️ Data Models
-
-### User Model
-```javascript
-{
-  _id: ObjectId,
-  username: String (required, unique, 3-30 chars),
-  email: String (required, unique, lowercase),
-  password: String (required, min 6 chars, hashed),
-  verified: Boolean (default: false),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Chat Model
-```javascript
-{
-  _id: ObjectId,
-  user: ObjectId (ref: 'User', required),
-  title: String (default: 'New Chat'),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Message Model
-```javascript
-{
-  _id: ObjectId,
-  chat: ObjectId (ref: 'Chat', required),
-  content: String (required),
-  role: String (enum: ['user', 'ai'], required),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
----
-
-## 📝 Code Explanations
-
-### 1. package.json
-- **Type**: ES Modules (`"type": "module"`)
-- **Main Dependencies**:
-  - `express`: Web framework for Node.js
-  - `mongoose`: MongoDB object modeling
-  - `bcryptjs`: Password hashing
-  - `jsonwebtoken`: JWT authentication
-  - `nodemailer`: Email sending
-  - `cookie-parser`: Cookie parsing middleware
-  - `dotenv`: Environment variable loading
-
-### 2. server.js
-**Entry Point**: Initializes the application
-- Loads environment variables
-- Establishes MongoDB connection
-- Starts Express server on specified PORT
-- Handles database connection errors
-
-### 3. src/app.js
-**Express Application Setup**:
-- Configures Express middlewares (JSON, URL-encoded, cookies)
-- Defines health check route (`/`)
-- Mounts authentication routes (`/api/auth`)
-
-### 4. src/config/database.js
-**Database Connection**:
-- Connects to MongoDB using Mongoose
-- Uses `MONGO_URI` from environment variables
-- Logs successful connection
-
-### 5. Models
-
-#### user.model.js
-- **Schema**: User authentication data
-- **Pre-save Hook**: Automatically hashes passwords
-- **Methods**: `comparePassword()` for authentication
-
-#### chat.model.js
-- **Schema**: Chat sessions linked to users
-- **References**: User model for ownership
-
-#### message.model.js
-- **Schema**: Individual messages in chats
-- **References**: Chat model for context
-- **Roles**: Distinguishes user vs AI messages
-
-### 6. Controllers
-
-#### auth.controller.js
-**register() Function**:
-- Validates username/email uniqueness
-- Creates new user (password auto-hashed)
-- Sends verification email with JWT token
-- Returns success/error responses
-
-### 7. Routes
-
-#### auth.routes.js
-- **POST /api/auth/register**: User registration endpoint
-- **Middleware**: Input validation, controller execution
-
-### 8. Services
-
-#### mail.service.js
-**Email Service**:
-- Gmail OAuth2 authentication
-- HTML email templates
-- Transporter verification on startup
-
-### 9. Validators
-
-#### auth.validator.js
-**Input Validation Rules**:
-- Username: 3-30 characters, alphanumeric + underscore
-- Email: Valid email format
-- Password: Minimum 6 characters
-
----
-
-## 🔌 API Endpoints
-
-### Authentication Routes
-```
-POST /api/auth/register
-- Body: { username, email, password }
-- Response: { message, success, user }
-- Description: Register new user account
-```
-
-### Health Check
-```
-GET /
-- Response: { message: "Server is up and running" }
-- Description: Server health verification
-```
-
----
-
-## 🔄 Data Flow
-
-### User Registration Flow
-1. **Client Request** → `POST /api/auth/register`
-2. **Validation** → Input sanitization and rules check
-3. **Controller Logic** → Check uniqueness, create user
-4. **Password Hashing** → Automatic bcrypt hashing
-5. **Email Service** → Send verification email
-6. **Database** → Save user document
-7. **Response** → Success/error message
-
-### Database Relationships
-```
-User (1) ←→ (N) Chat (1) ←→ (N) Message
-```
-
----
-
-## 🚀 Quick Start Commands
-
-```bash
-# Install dependencies
 npm install
 
-# Start development server
+Start the development server:
+
 npm run dev
 
-# Start production server
+Start production server:
+
 npm start
-```
 
----
+🎨 Frontend Installation
+Navigate to the frontend directory:
 
-              
-implement nodemailer (from ankur sir github repo {Difference-Backend-Video > 026-nodemailer})     
-> https://github.com/ankurdotio/Difference-Backend-video         
+cd frontend
 
+Install dependencies:
 
+npm install
 
-=============================================================================
------------------------------- Part 2 ---------------------------------------
-=============================================================================
+Start the Vite development server:
 
-implementation :
-1. Add email verification during registration and login and get-me functionality
-2. Google Gen Ai Feature
+npm run dev
 
-## 📁 Project Structure (Flow of Code)
+🔐 Environment Variables
+Create a .env file inside the backend directory.
 
-backend/
- ├── src/
- │   ├── controllers/
- │   │    └── auth.controller.js       # Added email verification logic
- |   ├── middlewares/  (runs before controller)
- │   │    └── auth.middleware.js  (JWT auth check)
- │   ├── validators/  (input validation layer)
- │   │    └── auth.validator.js  (validate user input) 
- │   ├── routes/
- │   │    └── auth.routes.js           # Routes for register, login, verify-email
- │   ├── models/
- │   │    └── user.model.js            # Added 'verified' boolean field
- │   ├── services/
- │   │    └── ai.service.js                 # (Planned) Google Generative AI integration service
- │   
- ├── .env                            # Stores JWT secret, API keys, email credentials
+Example:
 
-# Install packages : 
-npm i langchain
-npm i @langchain/google-genai
+PORT=3000
 
-🔐 Authentication Endpoints ->
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/perplexity
 
-📝 User Register :
+JWT_SECRET=your_jwt_secret
 
-Method: POST
-URL: http://localhost:3000/api/auth/register
+EMAIL_USER=your_email@gmail.com
+EMAIL_CLIENT_ID=your_google_client_id
+EMAIL_CLIENT_SECRET=your_google_client_secret
+EMAIL_REFRESH_TOKEN=your_google_refresh_token
 
-Body (raw JSON):
+MISTRAL_API_KEY=your_mistral_api_key
+
+GOOGLE_API_KEY=your_google_api_key
+
+TAVILY_API_KEY=your_tavily_api_key
+
+⚠️ Never commit your .env file or API keys to GitHub.
+
+Add .env to .gitignore:
+
+node_modules
+.env
+
+▶️ Start the Project
+From the project root, start the backend and frontend separately.
+
+Backend
+cd backend
+npm run dev
+
+Frontend
+cd frontend
+npm run dev
+
+The backend runs on:
+
+http://localhost:3000
+
+The frontend Vite development URL will be displayed in your terminal.
+
+🔐 Authentication System
+The application implements a complete authentication flow.
+
+Register
+   ↓
+Validate Input
+   ↓
+Create User
+   ↓
+Hash Password
+   ↓
+Send Verification Email
+   ↓
+Verify Email
+   ↓
+Login
+   ↓
+Generate JWT
+   ↓
+Authenticated Requests
+
+Authentication Features
+User registration
+Username validation
+Email validation
+Password hashing
+Email verification
+JWT authentication
+Protected routes
+Authenticated user retrieval
+Login restrictions for unverified users
+🔑 Authentication API
+Register
+POST /api/auth/register
+
+Request:
+
 {
-"username": "tejas",
-"email": "tejasyadav765@gmail.com
-",
-"password": "tejas123"
+  "username": "tejas",
+  "email": "tejas@example.com",
+  "password": "tejas123"
 }
 
-🔑 User Login :
+The server:
 
-Method: POST
-URL: http://localhost:3000/api/auth/login
+Validates the input
+Checks username/email uniqueness
+Hashes the password
+Creates the user
+Generates verification information
+Sends a verification email
+Login
+POST /api/auth/login
 
-Body (raw JSON):
+Request:
+
 {
-"username": "tejas",
-"email": "tejas@example.com
-",
-"password": "tejas123"
+  "email": "tejas@example.com",
+  "password": "tejas123"
 }
 
-📜 User Get Me :
+The user can log in only after email verification.
 
-Method: GET
-URL: http://localhost:3000/api/auth/get-me
+Get Current User
+GET /api/auth/get-me
 
+Returns authenticated user information.
 
-✉️ Email Verification :
+This endpoint requires JWT authentication.
 
-Method: GET
-URL: http://localhost:3000/api/auth/verify-email
+Verify Email
+GET /api/auth/verify-email
 
+The verification token is provided through the email verification link.
 
-| Endpoint                 | Method | Description                               |
-| http://localhost:3000/   |        |                                           |
-| ------------------------ | ------ | ----------------------------------------- |
-| `/api/auth/register`     | POST   | Registers user & sends verification email |
-| `/api/auth/verify-email` | GET    | Verifies user email via token link        |
-| `/api/auth/login`        | POST   | Logs in user only if email verified       |
-| `/api/auth/get-me`       | GET    | Fetches authenticated user details        |
+🔌 Authentication Endpoints Summary
+Endpoint	Method	Description
+/	GET	Server health check
+/api/auth/register	POST	Register a new user
+/api/auth/verify-email	GET	Verify user email
+/api/auth/login	POST	Login verified user
+/api/auth/get-me	GET	Get authenticated user
 
+💬 Chat System
+The chat system allows authenticated users to:
 
------ Langchain & Chatmodel (Google Gemini AI) Integration ------
+Create new conversations
+Send messages
+Continue existing conversations
+Store messages
+Retrieve chat history
+Delete conversations
+Receive AI-generated responses
+💬 Chat API
+Create New Chat
+POST /api/chats/message
 
-1. Langchain Overview:
+Request:
 
-    Langchain is an open-source framework and SDK for building applications 
-    powered by large language models (LLMs). It provides tools to:
+{
+  "message": "Hello, how are you?"
+}
 
-    → Connect easily to multiple LLM providers (OpenAI, Google Gemini, etc.)
-    → Manage prompts, conversations, and memory
-    → Chain multiple AI calls for complex workflows (“Langchain”)
-    → Integrate with external APIs, databases, and data sources
+If a chat ID is not supplied, a new chat is created.
 
-    ⚡ Summary:
-    Langchain acts as a flexible bridge between your application and AI models,
-    simplifying the development of intelligent, conversational applications.
+Send Message to Existing Chat
+POST /api/chats/message
 
-    🔗 Documentation:
-    https://docs.langchain.com/oss/javascript/langchain/models#google-gemini
-    (Navigate: langchain.com → Products → Langchain → Docs → TypeScript → Models → Google Gemini)
+Request:
 
-2. Chat Model:
+{
+  "message": "Who are you?",
+  "chat": "CHAT_ID"
+}
 
-    A Chat Model is an AI model designed to understand and generate 
-    human-like text in conversations. It powers chatbots and virtual assistants
-    by:
+Get All User Chats
+GET /api/chats/
 
-    → Processing user inputs (messages/questions)
-    → Generating relevant, coherent, context-aware responses
-    → Handling multi-turn conversations smoothly
+Returns all chats belonging to the authenticated user.
 
-    Chat Model Providers & Setup:
+Get Chat Messages
+GET /api/chats/:chatId/messages
 
-    2.1 Google AI Studio
-        → Website: https://aistudio.google.com/
-        → Steps:
-            - Create a new project
-            - Generate API key
+Returns all messages associated with a chat.
 
-    2.2 Mistral AI
-        → Website: https://admin.mistral.ai/organization/api-keys
-        → Steps:
-            - Register organization
-            - Generate API key
+Delete Chat
+DELETE /api/chats/:chatId
 
-    2.3 OpenAI GPT Series
-        → GPT-3.5
-            - General-purpose conversational AI
-            - Handles multi-turn conversations
-            - API available via OpenAI platform
-        → GPT-4
-            - More advanced reasoning and context understanding
-            - Supports longer conversations and structured outputs
-            - API available via OpenAI platform
-    
-    2.4 Anthropic Claude
-        → Claude 1 / Claude 2 / Claude 3
-            - Designed for safe and controllable AI interactions
-            - Chat-focused with context retention
-            - API available through Anthropic platform
-    
-    2.5 Cohere Command R
-        → Cohere Command R
-            - Retrieval-augmented conversational AI
-            - Can integrate with external data sources
-            - API available through Cohere platform
-    
-    2.6 Local / Open-source Models
-        → LLaMA (Meta)
-            - Large language model for local hosting
-            - Can be fine-tuned for chat applications
-        → Falcon
-            - Open-source chat-focused model
-            - Lightweight for local development
-        → GPT4All
-            - Community-driven GPT-style chat models
-            - Runs locally without paid APIs    
-        → TensorFlow Model (Local)
-            - Use for local development
-            - No API key required    
-            
+Deletes the selected conversation.
 
-=============================================================================
------------------------------- Part 3 ---------------------------------------
-                 Chat Model ( Gen Ai) + Tools + Email
-=============================================================================
+🗄️ Database Design
+The application uses MongoDB with Mongoose.
 
+User
+{
+  _id: ObjectId,
+  username: String,
+  email: String,
+  password: String,
+  verified: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+}
 
-=============================================================================
------------------------------- Part 4 ---------------------------------------
-=============================================================================
+Important properties:
 
-implementation :-
-    initialize frontend with React, Redux, and Tailwind CSS and connect to backend 
-    
+username — unique username
+email — unique email
+password — securely hashed
+verified — email verification status
+Chat
+{
+  _id: ObjectId,
+  user: ObjectId,
+  title: String,
+  createdAt: Date,
+  updatedAt: Date
+}
 
-frontend : 
+Each chat belongs to a user.
 
-    Dependencies
-    |
-    ├── npm create vite@7 .
-    │   └── Creates a new Vite project (React, Vue, etc.)
-    ├── npm install tailwindcss @tailwindcss/vite
-    │   └── Installs Tailwind CSS + Vite plugin for styling
-    ├── npm i react-router
-    │   └── Installs React Router for navigation & routing
-    ├── npm install @reduxjs/toolkit react-redux
-    │   └── Installs Redux Toolkit + React bindings for state management
-    ├── npm i axios
-    │   └── Installs Axios for making HTTP requests
-    └── npm i socket.io-client
-        └── Installs Socket.IO client library (frontend can connect to server and send/receive events)
-            (https://socket.io/docs/v4/tutorial/step-3)
+Message
+{
+  _id: ObjectId,
+  chat: ObjectId,
+  content: String,
+  role: String,
+  createdAt: Date,
+  updatedAt: Date
+}
 
-    * Create whole new frontend file    
+Message roles:
 
-    * update app/app.routes.js
-    * update features/chat/pages/Dashboard.jsx
-    * create chat/hooks/useChat.js
-    * create chat/services/chat.socket.js
+user
+ai
 
+🔗 Database Relationships
+User
+ │
+ │ 1
+ │
+ └───────────────┐
+                 │ N
+                Chat
+                 │
+                 │ 1
+                 │
+                 └───────────────┐
+                                 │ N
+                              Message
 
+In short:
 
+User (1) ──── (N) Chat (1) ──── (N) Message
 
-backend :
+🤖 AI Integration
+The application uses LangChain to communicate with AI chat models.
 
-    Dependencies
-    |
-    ├── npm i cors
-    │   └── Installs CORS middleware to allow cross-origin requests (backend)
-    ├── npm i morgan
-    │   └── Installs Morgan for logging HTTP requests (backend)
-    └── npm install socket.io
-        └── Installs Socket.IO server library (backend can handle real-time connections - emit/on)
-     
-    * adding cors, morgan -> app.js
-    * stop testAi() -> ai.service.js | server.js
-    * update getMe function -> auth.middleware.js | auth.controller.js
+The AI layer is responsible for:
 
-    * remove testAi feature direct from server.js 
-    * create new src/socket/server.socket.js
-    * update server.js file 
+Processing user messages
+Generating AI responses
+Generating chat titles
+Maintaining conversational context
+Integrating external tools
+Performing internet research
+🧠 LangChain
+LangChain provides an abstraction layer for working with different AI models and tools.
 
+It allows the application to:
 
-=============================================================================
------------------------------- Part 5 ---------------------------------------
-=============================================================================
+Connect to different LLM providers
+Create prompts
+Manage conversational workflows
+Connect AI models with tools
+Build more complex AI pipelines
+Packages used include:
 
-implementation :-
-     add title, chat, message, delete functionality and Mistral AI integration for getting title and using GenAi for getting response(message)
+npm install langchain
 
-backend: 
+and:
 
-   Dependencies
-    │    
-    └── npm install @langchain/mistralai
-        └── use Mistral AI like ChatGPT inside your Node.js app using LangChain
-            Docs -> https://docs.mistral.ai/getting-started/quickstart#getting-started-with-mistral-ai-api
+npm install @langchain/google-genai
 
-    * create new services/ ai.service.js
-    * create new controllers/ chat.controller.js
-    * create new routes/ chat.routes.js
-    * update app.js
+For Mistral:
 
-💬 Chat Endpoints ->
-        
-        🆕 Create New Chat :
-        
-        Method: POST
-        URL: http://localhost:3000/api/chats/message
-        
-        Body (raw JSON):
-        {
-        "message": "Hello, how are you?"
-        }
-        
-        💬 Send Message in Existing Chat :
-        
-        Method: POST
-        URL: http://localhost:3000/api/chats/message
-        
-        Body (raw JSON):
-        {
-        "message": "Who are you?",
-        "chat": "{chatId}"
-        }
-        
-        📂 Get All Chats (User) :
-        
-        Method: GET
-        URL: http://localhost:3000/api/chats/
-        
-        📜 Get Messages of a Chat :
-        
-        Method: GET
-        URL: http://localhost:3000/api/chats/{chatId}/messages
-        
-        🗑️ Delete Chat :
-        
-        Method: DELETE
-        URL: http://localhost:3000/api/chats/{chatId}    
+npm install @langchain/mistralai
 
+🌐 Internet Research with Tavily
+The application integrates Tavily to provide internet search capabilities.
 
-=============================================================================
------------------------------- Part 6 ---------------------------------------
-=============================================================================
+Tavily allows the AI system to retrieve information from the web and use that information when generating responses.
 
-implementation :-
-    -> implement chat functionality with Redux, including message handling and API integration
-    -> add react-markdown for rendering messages and enhance chat functionality
-    -> Updated Dashboard.jsx to display chat messages, input, and chat list
+The integration contains:
 
-frontend :-
+User Question
+      ↓
+AI Service
+      ↓
+Determine whether web research is required
+      ↓
+Tavily Search
+      ↓
+Search Results
+      ↓
+AI Processing
+      ↓
+Final Response
 
-Dependencies
-    │    
-    └── npm i react-markdown
-         (AI responses render Markdown nicely)
-         (any string with Markdown syntax can now display properly formatted content in your React app)
+Backend service:
 
+src/services/internet.service.js
 
+Required environment variable:
 
-    * create new features/chat/ chat.slice.js
-    * create new features/chat/service/ chat.api.js
-    * update features/chat/service/ chat.api.js
-    * update features/chat/hooks/ useChat.js
-    * update features/chat/pages/ Dashboard.jsx
-    * update app/ app.store.js
+TAVILY_API_KEY=your_tavily_api_key
 
-=============================================================================
------------------------------- Part 7 ---------------------------------------
-=============================================================================
+📝 Markdown Support
+AI responses can contain Markdown formatting.
 
+The frontend uses:
 
-implementation :-
-    - integrate Tavily API for internet search functionality  
-    - Enhanced chat functionality handle chat messages more effectively.
-    - Updated Dashboard component to support new message formatting and rendering with remark-gfm for GitHub Flavored Markdown. 
+npm install react-markdown
 
+for rendering Markdown.
 
+GitHub Flavored Markdown is enabled with:
 
-backend :-
+npm install remark-gfm
 
-Dependencies
-    │    
-    ├── npm i @tavily/core
-    |     (toget API Key -> https://app.tavily.com/)
-    |     (Tavily API for internet search functionality)  
-    |
-    └── npm i zod
-        (TypeScript-first schema validation library)
-          zod helps validate data by creating schemas for type-safe data parsing, ensuring
-          the input matches the expected structure.
+This allows the application to render:
 
+Headings
+Lists
+Tables
+Code blocks
+Links
+Bold text
+Italic text
+Strikethrough
+Task lists
+⚡ Real-Time Communication
+The application uses Socket.IO for real-time communication.
 
-    * create new src/service/ internet.service.js 
-    * update src/service/ ai.service.js 
-    * update .env
+Backend
+npm install socket.io
 
-frontend :-
+Socket server:
 
-Dependencies
-    │    
-    └── npm install remark-gfm   
-         The remark-gfm plugin enables GitHub Flavored Markdown (GFM) support in your Markdown renderer,
-         allowing you to use features like tables, strikethrough, and task lists.
+src/sockets/server.socket.js
 
+Frontend
+npm install socket.io-client
 
-    * update src/features/chat/service/ chat.api.js
-    * update src/features/chat/ chat.slice.js
-    * update src/features/chat/hooks/ useChat.js 
-    * update src/features/chat/pages/ Dashboard.jsx
-    * update app/ index.css
+Socket client:
+
+src/features/chat/services/chat.socket.js
+
+The real-time architecture allows the frontend and backend to communicate through Socket.IO events.
+
+React Client
+     │
+     │ Socket.IO
+     ↓
+Node.js Server
+     │
+     ↓
+Chat / AI Services
+
+📧 Email Verification
+Email verification is implemented using Nodemailer.
+
+The mail service is responsible for:
+
+Creating the email transporter
+Configuring Gmail OAuth2
+Generating verification links
+Sending verification emails
+Verifying email delivery configuration
+Service:
+
+src/services/mail.service.js
+
+The implementation was inspired by the Nodemailer implementation from Ankur's Difference Backend Video repository.
+
+Reference:
+
+Difference Backend Video — Ankur's GitHub Repository
+
+🛡️ Validation
+Authentication input is validated before reaching the controller.
+
+The project uses Joi for authentication validation.
+
+Example validation requirements:
+
+Username
+├── Required
+├── 3–30 characters
+└── Alphanumeric + underscore
+
+Email
+└── Valid email format
+
+Password
+└── Minimum 6 characters
+
+Zod is also used for structured validation in the internet/AI tool workflow.
+
+🧩 Backend Architecture
+The backend follows a layered architecture.
+
+Request
+  ↓
+Routes
+  ↓
+Middleware
+  ↓
+Validators
+  ↓
+Controllers
+  ↓
+Services
+  ↓
+Models
+  ↓
+MongoDB
+
+Routes
+Responsible for defining API endpoints.
+
+src/routes/
+
+Middleware
+Responsible for processing requests before controllers.
+
+src/middlewares/
+
+Controllers
+Responsible for application/business logic.
+
+src/controllers/
+
+Services
+Responsible for external integrations and reusable business services.
+
+src/services/
+
+Models
+Responsible for MongoDB schemas.
+
+src/models/
+
+🎨 Frontend Architecture
+The frontend follows a feature-based structure.
+
+src/
+│
+├── app/
+│
+├── features/
+│   ├── auth/
+│   └── chat/
+│
+└── main.jsx
+
+The features directory separates application functionality into independent modules.
+
+🔐 Auth Feature
+features/auth/
+│
+├── auth.slice.js
+├── components/
+│   └── Protected.jsx
+├── hook/
+│   └── useAuth.js
+├── pages/
+│   ├── Login.jsx
+│   └── Register.jsx
+└── service/
+    └── auth.api.js
+
+Responsibilities:
+
+Login
+Registration
+Authentication state
+Protected routes
+User information
+Authentication API requests
+💬 Chat Feature
+features/chat/
+│
+├── chat.slice.js
+│
+├── hooks/
+│   └── useChat.js
+│
+├── pages/
+│   └── Dashboard.jsx
+│
+└── services/
+    ├── chat.api.js
+    ├── chat.socket.js
+    └── internet.service.js
+
+Responsibilities:
+
+Chat state
+Messages
+Chat history
+Chat creation
+Chat deletion
+API communication
+Socket communication
+AI response rendering
+🗃️ Redux State Management
+Redux Toolkit manages global application state.
+
+The application contains separate slices for major features.
+
+Redux Store
+│
+├── auth
+│   └── Authentication state
+│
+└── chat
+    ├── Chats
+    ├── Messages
+    ├── Loading
+    └── Errors
+
+Store configuration:
+
+src/app/app.store.js
+
+🔄 Complete Chat Flow
+User
+ │
+ │ Sends message
+ ↓
+React Dashboard
+ │
+ ↓
+useChat()
+ │
+ ↓
+Redux / API
+ │
+ ↓
+Express Chat Route
+ │
+ ↓
+Chat Controller
+ │
+ ├── Create / Find Chat
+ │
+ ├── Save User Message
+ │
+ ↓
+AI Service
+ │
+ ├── Mistral AI
+ │
+ └── Tavily Internet Search
+ │
+ ↓
+AI Response
+ │
+ ↓
+Save AI Message
+ │
+ ↓
+Socket.IO
+ │
+ ↓
+React Frontend
+ │
+ ↓
+React Markdown
+ │
+ ↓
+Rendered Response
+
+🏗️ Development Timeline
+Part 1 — Backend Foundation
+Implemented:
+
+Express server
+MongoDB connection
+Mongoose models
+Authentication foundation
+JWT
+Password hashing
+Nodemailer
+Input validation
+Authentication routes
+Main dependencies:
+
+npm i express mongoose jsonwebtoken dotenv cookie-parser
+npm i bcryptjs nodemailer
+npm i -D nodemon
+
+Part 2 — Authentication + Generative AI
+Implemented:
+
+Email verification
+Login
+Get Me
+JWT authentication middleware
+Google Generative AI integration
+LangChain
+Dependencies:
+
+npm install langchain
+npm install @langchain/google-genai
+
+Part 3 — AI + Tools + Email
+Expanded the AI architecture to support:
+
+Chat models
+External tools
+Email services
+AI-powered workflows
+Part 4 — Frontend + Real-Time Communication
+Implemented:
+
+React frontend
+Vite
+Redux Toolkit
+React Router
+Tailwind CSS
+Axios
+Socket.IO
+CORS
+Morgan
+Backend Socket.IO server
+Frontend dependencies:
+
+npm install tailwindcss @tailwindcss/vite
+npm install react-router
+npm install @reduxjs/toolkit react-redux
+npm install axios
+npm install socket.io-client
+
+Backend dependencies:
+
+npm install cors
+npm install morgan
+npm install socket.io
+
+Part 5 — Chat System + Mistral AI
+Implemented:
+
+Chat creation
+Chat titles
+Message storage
+Existing chat messages
+Chat deletion
+Mistral AI integration
+AI-generated responses
+Dependency:
+
+npm install @langchain/mistralai
+
+Part 6 — Redux Chat Management
+Implemented:
+
+Chat Redux slice
+Chat API service
+Chat hook
+Message state management
+Chat list
+Loading states
+Error handling
+Markdown rendering
+Dependency:
+
+npm install react-markdown
+
+Part 7 — Internet Search
+Implemented:
+
+Tavily API
+Internet search service
+AI + search integration
+Improved chat handling
+GitHub Flavored Markdown
+Tables
+Task lists
+Strikethrough
+Improved message formatting
+Dependencies:
+
+npm install @tavily/core
+npm install zod
+npm install remark-gfm
+
+📦 Important Dependencies
+Backend
+express
+mongoose
+jsonwebtoken
+bcryptjs
+dotenv
+cookie-parser
+nodemailer
+cors
+morgan
+socket.io
+langchain
+@langchain/google-genai
+@langchain/mistralai
+@tavily/core
+zod
+
+Frontend
+react
+vite
+react-router
+@reduxjs/toolkit
+react-redux
+axios
+socket.io-client
+react-markdown
+remark-gfm
+tailwindcss
+@tailwindcss/vite
+
+🔗 External Services
+The project uses the following external services:
+
+MongoDB — Database
+Mistral AI — AI chat model
+Google AI / Gemini — Generative AI experimentation/integration
+Tavily — Internet search
+Gmail / Nodemailer — Email verification
+Socket.IO — Real-time communication
+🔒 Security Considerations
+The project includes several security mechanisms:
+
+Password hashing with bcrypt
+JWT authentication
+Protected API endpoints
+Email verification
+Environment variables for secrets
+Input validation
+CORS configuration
+User-specific chat ownership
+Never expose secrets
+Do not commit:
+
+.env
+API keys
+JWT secrets
+OAuth credentials
+MongoDB credentials
+
+🧪 API Testing
+You can test the backend using tools such as:
+
+Postman
+Insomnia
+Thunder Client
+cURL
+Example:
+
+curl http://localhost:3000/
+
+Expected response:
+
+{
+  "message": "Server is up and running"
+}
+
+🚀 Quick Start
+Clone the repository:
+
+git clone YOUR_REPOSITORY_URL
+
+Navigate into the project:
+
+cd perplexity
+
+Install backend dependencies:
+
+cd backend
+npm install
+
+Configure:
+
+backend/.env
+
+Start backend:
+
+npm run dev
+
+Open another terminal and install frontend dependencies:
+
+cd frontend
+npm install
+
+Start frontend:
+
+npm run dev
+
+📌 Main Application Flow
+                    ┌──────────────┐
+                    │    User      │
+                    └──────┬───────┘
+                           │
+                           ↓
+                    ┌──────────────┐
+                    │    React     │
+                    │   Frontend   │
+                    └──────┬───────┘
+                           │
+                  HTTP / Socket.IO
+                           │
+                           ↓
+                    ┌──────────────┐
+                    │   Express    │
+                    │    Server    │
+                    └──────┬───────┘
+                           │
+              ┌────────────┼────────────┐
+              ↓            ↓            ↓
+          Auth API     Chat API     Socket.IO
+              │            │
+              ↓            ↓
+          MongoDB      AI Service
+                           │
+                    ┌──────┴──────┐
+                    ↓             ↓
+                Mistral AI      Tavily
+                    │             │
+                    └──────┬──────┘
+                           ↓
+                    AI Response
+                           │
+                           ↓
+                       MongoDB
+                           │
+                           ↓
+                     Frontend UI
+
