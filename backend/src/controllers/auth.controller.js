@@ -177,6 +177,26 @@ export async function getMe(req, res) {
 }
 
 /**
+ * @desc    Logout user and clear auth cookie
+ * @route   POST /api/auth/logout
+ * @access  Public
+ * @returns { message, success }
+ */
+export async function logout(req, res) {
+  const isProduction = process.env.NODE_ENV === "production";
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+  });
+
+  res.status(200).json({
+    message: "Logged out successfully",
+    success: true,
+  });
+}
+
+/**
  * @desc    Verify email address
  * @route   GET /api/auth/verify-email
  * @access  Public

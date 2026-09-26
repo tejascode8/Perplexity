@@ -58,6 +58,16 @@ export const useChat = () => {
 
       dispatch(setCurrentChatId(activeChatId));
     } catch (error) {
+      const isTimeout =
+        error?.code === "ECONNABORTED" ||
+        error?.message?.toLowerCase().includes("timeout") ||
+        error?.message?.toLowerCase().includes("exceeded");
+
+      if (isTimeout) {
+        window.location.reload();
+        return;
+      }
+
       dispatch(
         setError({
           message: error?.message || String(error),
@@ -87,6 +97,16 @@ export const useChat = () => {
 
       dispatch(setChats(formattedChats));
     } catch (error) {
+      const isTimeout =
+        error?.code === "ECONNABORTED" ||
+        error?.message?.toLowerCase().includes("timeout") ||
+        error?.message?.toLowerCase().includes("exceeded");
+
+      if (isTimeout) {
+        window.location.reload();
+        return;
+      }
+
       dispatch(
         setError({
           message: error?.message || String(error),
@@ -124,6 +144,16 @@ export const useChat = () => {
 
       dispatch(setCurrentChatId(chatId));
     } catch (error) {
+      const isTimeout =
+        error?.code === "ECONNABORTED" ||
+        error?.message?.toLowerCase().includes("timeout") ||
+        error?.message?.toLowerCase().includes("exceeded");
+
+      if (isTimeout) {
+        window.location.reload();
+        return;
+      }
+
       dispatch(
         setError({
           message: error?.message || String(error),
@@ -146,6 +176,16 @@ export const useChat = () => {
 
       dispatch(setCurrentChatId(null));
     } catch (error) {
+      const isTimeout =
+        error?.code === "ECONNABORTED" ||
+        error?.message?.toLowerCase().includes("timeout") ||
+        error?.message?.toLowerCase().includes("exceeded");
+
+      if (isTimeout) {
+        window.location.reload();
+        return;
+      }
+
       dispatch(
         setError({
           message: error?.message || "Failed to delete chat",

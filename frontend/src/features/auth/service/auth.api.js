@@ -70,3 +70,18 @@ export async function getMe() {
     throw error?.response?.data || { message: "Something went wrong" };
   }
 }
+
+/**
+ * Logs out the current user.
+ *
+ * @function logout
+ * @returns {Promise<Object>} The response data from the server.
+ */
+export async function logout() {
+  try {
+    const response = await api.post("/api/auth/logout");
+    return response.data;
+  } catch (error) {
+    throw error?.response?.data || { message: "Something went wrong" };
+  }
+}

@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.routes.js";
 import chatRouter from "./routes/chat.routes.js";
 import cors from "cors";
 import morgan from "morgan";
+import { notFoundFallback } from "./middlewares/notFound.middleware.js";
 
 const app = express();
 
@@ -28,15 +29,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/chats", chatRouter);
 
-// 404 catch-all route (catch any request that reaches this point)
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: `Route ${req.originalUrl} not found`,
-  });
-});
-
-// End of app.js
+// Fallback 404 & redirect protection middleware
+app.use(notFoundFallback);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

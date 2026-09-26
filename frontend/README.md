@@ -1,12 +1,31 @@
-# React + Vite
+# Perplexity AI — Frontend Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React 19 + Vite web client providing a high-performance conversational search experience with real-time web retrieval, full dark/light theme support, responsive typography, and GitHub-flavored markdown code formatting.
 
-Currently, two official plugins are available:
+## Features
+- **Strict Monochrome Theme System**: Seamless switching between dark and light modes adhering to a high-contrast monochrome palette.
+- **Universal Perplexity Loader**: Ensures clean transition states without UI flashes during data fetching and authentication checks.
+- **Interactive Chat Feeds**: Synthesized markdown answers, syntax-highlighted code blocks with single-click copy feedback, and search status indicators.
+- **State Management**: Redux Toolkit for global chat and authentication lifecycle state.
+- **Real-time WebSockets**: Instant message streaming via Socket.IO.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Available Scripts
 
-## Expanding the ESLint configuration
+In the frontend directory, you can run:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies
+npm install
+
+# Start local development server (Vite HMR)
+npm run dev
+
+# Build production bundle
+npm run build
+
+# Preview production build locally
+npm run preview
+
+# Run ESLint validation
+npm run lint
+```

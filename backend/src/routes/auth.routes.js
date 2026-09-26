@@ -4,6 +4,7 @@ import {
   verifyEmail,
   login,
   getMe,
+  logout,
 } from "../controllers/auth.controller.js";
 import {
   registerValidator,
@@ -30,6 +31,14 @@ authRouter.post("/register", registerValidator, register);
  * @returns { message, success, user, token }
  */
 authRouter.post("/login", loginValidator, login);
+
+/**
+ * @route POST /api/auth/logout
+ * @desc Logout a user
+ * @access Public
+ * @returns { message, success }
+ */
+authRouter.post("/logout", logout);
 
 /**
  * @route GET /api/auth/verify-email
