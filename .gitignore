@@ -51,3 +51,6 @@ Thumbs.db
 # AI Agents & IDE metadata
 .gemini/
 .agents/
+
+# Other
+LINKEDIN_PROJECT_POST.md
